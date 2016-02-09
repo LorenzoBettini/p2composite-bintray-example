@@ -12,19 +12,28 @@
 
 	<artifactId>p2composite.example.site</artifactId>
 	<packaging>eclipse-repository</packaging>
-	
+
 	<properties>
+		<!-- The name of your own Bintray repository -->
 		<bintray.repo>p2-composite-example</bintray.repo>
+		<!-- The name of your own Bintray repository's package for releases -->
 		<bintray.package>releases</bintray.package>
+		<!-- The label for the Composite sites -->
+		<site.label>Composite Site Example</site.label>
+
+		<!-- If the Bintray repository is owned by someone different from your
+			user, then specify the bintray.owner explicitly -->
 		<bintray.owner>${bintray.user}</bintray.owner>
+		<!-- Define bintray.user and bintray.apikey in some secret place,
+			like .m2/settings.xml -->
+
+		<!-- Default values for remote directories -->
 		<bintray.releases.path>releases</bintray.releases.path>
 		<bintray.composite.path>updates</bintray.composite.path>
 		<bintray.zip.path>zipped</bintray.zip.path>
 		<!-- note that the following must be consistent with the path schema
 			used to publish child composite repositories and actual released p2 repositories -->
 		<child.repository.path.prefix>../../releases/</child.repository.path.prefix>
-
-		<site.label>Composite Site Example</site.label>
 	</properties>
 
 	<build>
@@ -43,20 +52,12 @@
 
 	<profiles>
 		<profile>
+			<!-- Activate this profile to perform the release to Bintray -->
 			<id>release-composite</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
-			
-			<properties>
-				<!-- local source directory for rsync (read from this directory) -->
-				<rsync.remote.dir>lbettini,eclipseexamples@frs.sourceforge.net:/home/frs/project/eclipseexamples/p2composite.example/updates/</rsync.remote.dir> 
-				<!-- remote rsync host -->
-				<rsync.local.dir>${user.home}/p2.repositories/updates/</rsync.local.dir>
-				<!-- pass "-n" to perform a trial run with no changes made -->
-				<dryrun></dryrun>
-			</properties>
-			
+
 			<build>
 				<plugins>
 					<plugin>
@@ -64,6 +65,7 @@
 						<version>${maven-antrun-plugin.version}</version>
 						<executions>
 							<execution>
+								<!-- Retrieve possibly existing remote composite metadata -->
 								<id>update-local-repository</id>
 								<phase>prepare-package</phase>
 								<configuration>
@@ -78,6 +80,7 @@
 							</execution>
 							
 							<execution>
+								<!-- Deploy p2 repository, p2 composite updated metadata and zipped p2 repository -->
 								<id>deploy-repository</id>
 								<phase>verify</phase>
 								<configuration>
@@ -98,11 +101,12 @@
 						<artifactId>tycho-eclipserun-plugin</artifactId>
 						<version>${tycho-version}</version>
 						<configuration>
-						    <!-- IMPORTANT: DO NOT split the arg line -->
+							<!-- Update p2 composite metadata or create it -->
+							<!-- IMPORTANT: DO NOT split the arg line -->
 							<appArgLine>-application org.eclipse.ant.core.antRunner -buildfile packaging-p2composite.ant p2.composite.add -Dsite.label="${site.label}" -Dproject.build.directory=${project.build.directory} -DunqualifiedVersion=${unqualifiedVersion} -DbuildQualifier=${buildQualifier} -Dchild.repository.path.prefix="${child.repository.path.prefix}"</appArgLine>
 							<repositories>
 								<repository>
-									<id>luna</id>
+									<id>mars</id>
 									<layout>p2</layout>
 									<url>http://download.eclipse.org/releases/mars</url>
 								</repository>
