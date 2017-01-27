@@ -13,7 +13,10 @@
 	-->
 
 	<property name="bintray.url" value="https://dl.bintray.com/${bintray.owner}/${bintray.repo}" />
-	<property name="bintray.package.version" value="${unqualifiedVersion}.${buildQualifier}" />
+	<condition property="bintray.package.version" value="${unqualifiedVersion}.${buildQualifier}" else="${unqualifiedVersion}">
+		<isset property="buildQualifier"/>
+	</condition>
+	
 	<property name="bintray.releases.target.path" value="${bintray.releases.path}/${bintray.package.version}" />
 
 	<property name="main.composite.url" value="${bintray.url}/${bintray.composite.path}" />
