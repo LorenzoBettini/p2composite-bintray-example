@@ -22,14 +22,14 @@
 	<!--
 		site.label						The name/title/label of the created composite site
 		unqualifiedVersion 				The version without any qualifier replacement
-		buildQualifier					The build qualifier
+		qualifiedVersion 				The version with qualifier if any
 		child.repository.path.prefix	The path prefix to access the actual p2 repo from the
 										child repo, e.g., if child repo is in /updates/1.0 and
 										the p2 repo is in /releases/1.0.0.something then this property
 										should be "../../releases/"
 	-->
 	<target name="compute.child.repository.data" depends="getMajorMinorVersion">
-		<property name="full.version" value="${unqualifiedVersion}.${buildQualifier}" />
+		<property name="full.version" value="${qualifiedVersion}" />
 
 		<property name="site.composite.name" value="${site.label} ${majorMinorVersion}" />
 		<property name="main.site.composite.name" value="${site.label} All Versions" />
