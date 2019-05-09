@@ -7,25 +7,48 @@
 		<relativePath>../p2composite.example.tycho/pom.xml</relativePath>
 		<groupId>p2composite.example</groupId>
 		<artifactId>p2composite.example.tycho</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.1</version>
 	</parent>
 
 	<artifactId>p2composite.example.site</artifactId>
 	<packaging>eclipse-repository</packaging>
 
 	<properties>
-		<!-- The name of your own Bintray repository -->
-		<bintray.repo>p2-composite-example</bintray.repo>
-		<!-- The name of your own Bintray repository's package for releases -->
-		<bintray.package>releases</bintray.package>
-		<!-- The label for the Composite sites -->
-		<site.label>Composite Site Example</site.label>
-
-		<!-- If the Bintray repository is owned by someone different from your
-			user, then specify the bintray.owner explicitly -->
+		<!-- The name of a Bintray organization or user.
+		     Either set it here explicitly (uncomment the next entry)
+		     or provide it on the command line: mvn ... -Dbintray.owner=$BINTRAY_OWNER -->
+		<!-- 
 		<bintray.owner>${bintray.user}</bintray.owner>
-		<!-- Define bintray.user and bintray.apikey in some secret place,
-			like .m2/settings.xml -->
+		-->
+		
+		<!-- The name of a Bintray repository in the Bintray organization or user.
+		     Either set it here explicitly (uncomment the next entry)
+		     or provide it on the command line: mvn ... -Dbintray.repo=$BINTRAY_REPO -->
+		<!-- 
+		<bintray.repo>p2-composite-example</bintray.repo>
+		-->
+		
+		<!-- The name of a Bintray package in a Bintray repository owned by a Bintray organization or user.
+		     Either set it here explicitly (uncomment the next entry)
+		     or provide it on the command line: mvn ... -Dbintray.package=$BINTRAY_PACKAGE -->
+		<!-- 
+		<bintray.package>releases</bintray.package>
+		-->
+		
+		<!-- 1 = upload & publish, 0 = upload only
+			 Either set it here explicitly (uncomment one of the next entries)
+			 or provide it on the command line: mvn ... -Dbintray.publish=1 -->
+		<!-- 
+		<bintray.publish>1</bintray.publish>
+		 -->
+		<!-- 
+		<bintray.publish>0</bintray.publish>
+		 -->
+		 
+		<!-- The label for the Composite sites. Note that this cannot be specified on a command line argument. -->
+		<site.label>Composite Site Example</site.label>
+	    
+		<!-- Define bintray.user and bintray.apikey in ~/.m2/settings.xml -->
 
 		<!-- Default values for remote directories -->
 		<bintray.releases.path>releases</bintray.releases.path>
@@ -103,7 +126,12 @@
 						<configuration>
 							<!-- Update p2 composite metadata or create it -->
 							<!-- IMPORTANT: DO NOT split the arg line -->
+							<!-- TODO: need some Pom conditional magic to execute the following if ${buildQualifier} is empty -->
+							<appArgLine>-application org.eclipse.ant.core.antRunner -buildfile packaging-p2composite.ant p2.composite.add -Dsite.label="${site.label}" -Dproject.build.directory=${project.build.directory} -DunqualifiedVersion=${unqualifiedVersion} -Dchild.repository.path.prefix="${child.repository.path.prefix}"</appArgLine>
+							<!-- TODO: need some Pom conditional magic to execute the following if ${buildQualifier} is not empty -->
+							<!--
 							<appArgLine>-application org.eclipse.ant.core.antRunner -buildfile packaging-p2composite.ant p2.composite.add -Dsite.label="${site.label}" -Dproject.build.directory=${project.build.directory} -DunqualifiedVersion=${unqualifiedVersion} -DbuildQualifier=${buildQualifier} -Dchild.repository.path.prefix="${child.repository.path.prefix}"</appArgLine>
+							-->
 							<repositories>
 								<repository>
 									<id>mars</id>

@@ -10,10 +10,19 @@
 	<property name="bintray.releases.path" value="" />
 	<property name="bintray.composite.path" value="" />
 	<property name="bintray.zip.path" value="" />
+	<property name="bintray.publish" value="" />
 	-->
 
-	<property name="bintray.url" value="https://dl.bintray.com/${bintray.owner}/${bintray.repo}" />
-	<property name="bintray.package.version" value="${unqualifiedVersion}.${buildQualifier}" />
+	<property name="bintray.url" value="https://dl.bintray.com/${bintray.owner}/${bintray.repo}/${bintray.package}" />
+	<condition property="bintray.package.version" value="${unqualifiedVersion}" else="${unqualifiedVersion}.${buildQualifier}">
+		<or>
+			<not>
+				<isset property="buildQualifier"/>
+			</not>
+			<equals arg1="" arg2="${buildQualifier}"/>
+		</or>
+	</condition>
+	
 	<property name="bintray.releases.target.path" value="${bintray.releases.path}/${bintray.package.version}" />
 
 	<property name="main.composite.url" value="${bintray.url}/${bintray.composite.path}" />
@@ -116,7 +125,7 @@
 				<mergemapper to="-T" />
 				<globmapper from="*" to="${local.p2.repository}/*" />
 				<mergemapper to="-u${bintray.user}:${bintray.apikey}" />
-				<globmapper from="*" to="https://api.bintray.com/content/${bintray.owner}/${bintray.repo}/${bintray.releases.target.path}/*;bt_package=${bintray.package};bt_version=${bintray.package.version};publish=1" />
+				<globmapper from="*" to="https://api.bintray.com/content/${bintray.owner}/${bintray.repo}/${bintray.package}/${bintray.releases.target.path}/*;bt_package=${bintray.package};bt_version=${bintray.package.version};publish=${bintray.publish}" />
 			</compositemapper>
 		</apply>
 	</target>
@@ -132,7 +141,7 @@
 				<mergemapper to="-T" />
 				<globmapper from="*" to="${target}/*" />
 				<mergemapper to="-u${bintray.user}:${bintray.apikey}" />
-				<globmapper from="*" to="https://api.bintray.com/content/${bintray.owner}/${bintray.repo}/${bintray.zip.path}/*;bt_package=${bintray.package};bt_version=${bintray.package.version};publish=1" />
+				<globmapper from="*" to="https://api.bintray.com/content/${bintray.owner}/${bintray.repo}/${bintray.package}/${bintray.zip.path}/*;bt_package=${bintray.package};bt_version=${bintray.package.version};publish=${bintray.publish}" />
 			</compositemapper>
 		</apply>
 	</target>
@@ -148,7 +157,7 @@
 				<mergemapper to="-T" />
 				<globmapper from="*" to="${target}/${composite.repository.directory}/*" />
 				<mergemapper to="-u${bintray.user}:${bintray.apikey}" />
-				<globmapper from="*" to="https://api.bintray.com/content/${bintray.owner}/${bintray.repo}/${bintray.composite.path}/${majorMinorVersion}/*;publish=1" />
+				<globmapper from="*" to="https://api.bintray.com/content/${bintray.owner}/${bintray.repo}/${bintray.package}/${bintray.composite.path}/${majorMinorVersion}/*;publish=${bintray.publish}" />
 			</compositemapper>
 		</apply>
 	</target>
@@ -164,7 +173,7 @@
 				<mergemapper to="-T" />
 				<globmapper from="*" to="${target}/${main.composite.repository.directory}/*" />
 				<mergemapper to="-u${bintray.user}:${bintray.apikey}" />
-				<globmapper from="*" to="https://api.bintray.com/content/${bintray.owner}/${bintray.repo}/${bintray.composite.path}/*;publish=1" />
+				<globmapper from="*" to="https://api.bintray.com/content/${bintray.owner}/${bintray.repo}/${bintray.package}/${bintray.composite.path}/*;publish=${bintray.publish}" />
 			</compositemapper>
 		</apply>
 	</target>

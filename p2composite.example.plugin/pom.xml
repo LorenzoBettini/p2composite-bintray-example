@@ -7,7 +7,7 @@
 		<relativePath>../p2composite.example.tycho/pom.xml</relativePath>
 		<groupId>p2composite.example</groupId>
 		<artifactId>p2composite.example.tycho</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.1</version>
 	</parent>
 
 	<artifactId>p2composite.example.plugin</artifactId>
