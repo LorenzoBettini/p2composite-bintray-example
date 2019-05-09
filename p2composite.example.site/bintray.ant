@@ -13,7 +13,7 @@
 	-->
 
 	<property name="bintray.url" value="https://dl.bintray.com/${bintray.owner}/${bintray.repo}" />
-	<property name="bintray.package.version" value="${unqualifiedVersion}.${buildQualifier}" />
+	<property name="bintray.package.version" value="${qualifiedVersion}" />
 	<property name="bintray.releases.target.path" value="${bintray.releases.path}/${bintray.package.version}" />
 
 	<property name="main.composite.url" value="${bintray.url}/${bintray.composite.path}" />
