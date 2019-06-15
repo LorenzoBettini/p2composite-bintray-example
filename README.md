@@ -3,4 +3,4 @@ An example of how to create an Eclipse p2 Composite update site during the build
 
 This is described in this post:
 
-http://www.lorenzobettini.it/2016/02/publish-an-eclipse-p2-composite-repository-on-bintray/
+http://www.lorenzobettini.it/publish-an-eclipse-p2-composite-repository-on-bintray/
